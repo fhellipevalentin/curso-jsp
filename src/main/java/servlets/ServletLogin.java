@@ -9,7 +9,7 @@ import model.ModelLogin;
 
 import java.io.IOException;
 
-@WebServlet("/ServletLogin")
+@WebServlet(urlPatterns = {"/principal/ServletLogin", "/ServletLogin"})
 public class ServletLogin extends HttpServlet {
 
     public ServletLogin () {
@@ -28,6 +28,7 @@ public class ServletLogin extends HttpServlet {
 
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
+        String url = request.getParameter("url");
 
         ModelLogin modelLogin =new ModelLogin();
 
@@ -37,10 +38,15 @@ public class ServletLogin extends HttpServlet {
             if(modelLogin.getLogin().equalsIgnoreCase("admin")
                     && modelLogin.getSenha().equalsIgnoreCase("admin")){/*simulando login*/
                 request.getSession().setAttribute("usuario", modelLogin.getLogin());
-                RequestDispatcher redirect = request.getRequestDispatcher("principal/principal.jsp");
+
+                if (url == null || url.equals("null")) {
+                    url = "principal/principal.jsp";
+                }
+
+                RequestDispatcher redirect = request.getRequestDispatcher(url);
                 redirect.forward(request, response);
             } else {
-                RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
+                RequestDispatcher redirect = request.getRequestDispatcher("/index.jsp");
                 request.setAttribute("msg", "Informe o login e senha corretamente");
                 redirect.forward(request, response);
             }
