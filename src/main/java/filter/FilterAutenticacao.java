@@ -45,6 +45,10 @@ public class FilterAutenticacao  implements Filter {
             connection.commit(); // faz o commit para que as alteracoes sejam salvas
         } catch (Exception e) {
             e.printStackTrace();
+            
+            RequestDispatcher redirect = request.getRequestDispatcher("erro.jsp");
+            request.setAttribute("msg", e.getMessage());
+            redirect.forward(request, response);
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {

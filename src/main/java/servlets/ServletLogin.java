@@ -65,6 +65,9 @@ public class ServletLogin extends HttpServlet implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            RequestDispatcher redirect = request.getRequestDispatcher("erro.jsp");
+            request.setAttribute("msg", e.getMessage());
+            redirect.forward(request, response);
         }
 
     }
