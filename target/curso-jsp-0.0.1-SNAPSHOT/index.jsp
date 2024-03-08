@@ -11,6 +11,7 @@
 			color: #842029;
 			background-color: #f8d7da;
 			border-color: #f5c2c7;
+			text-align: center;
 		}
 	</style>
 </head>
