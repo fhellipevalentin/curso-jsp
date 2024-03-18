@@ -97,7 +97,7 @@
                 <li class="user-profile header-notification">
                     <a href="#!" class="waves-effect waves-light">
                         <img src="assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                        <span>John Doe</span>
+                        <span><%= request.getSession().getAttribute("usuario") %>></span> <!-- segunda forma -->
                         <i class="ti-angle-down"></i>
                     </a>
                     <ul class="show-notification profile-notification">
