@@ -26,7 +26,16 @@ public class ServletLogin extends HttpServlet implements Serializable {
     // recebe os dados pela url em parametros
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+
+        String acao = request.getParameter("acao");
+
+        if (acao != null && acao.equalsIgnoreCase("logout")) {
+            request.getSession().invalidate(); // invalida a sessão
+            RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
+            redirect.forward(request, response);
+        } else {
+            doPost(request, response);
+        }
     }
 
     // recebe os dados enviados por um formulario
