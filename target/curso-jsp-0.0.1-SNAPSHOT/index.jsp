@@ -25,7 +25,7 @@
 
 							<h3 class="mb-5 text-center">Bem vindo ao curso de JSP</h3>
 
-							<form action= "ServletLogin" method="post" class="needs-validation" novalidate>
+							<form action= "<%= request.getContextPath() %>/ServletLogin" method="post" class="needs-validation" novalidate>
 								<input type="hidden" value="<%= request.getParameter("url") %>" name="url">
 								<div class="form-outline mb-4">
 									<label class="form-label" for="typeEmailX-2">Login *</label>

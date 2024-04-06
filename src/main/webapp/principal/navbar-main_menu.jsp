@@ -22,7 +22,7 @@
           <li class="more-details">
             <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
             <a href="#!"><i class="ti-settings"></i>Settings</a>
-            <a href="ServletLogin?acao=Logout"><i class="ti-layout-sidebar-left"></i>Logout</a>
+            <a href="<%= request.getContextPath() %>/ServletLogin?acao=Logout"><i class="ti-layout-sidebar-left"></i>Logout</a>
           </li>
         </ul>
       </div>
@@ -41,7 +41,7 @@
       <li class="active">
         <a href="index.html" class="waves-effect waves-dark">
           <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-          <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+          <span class="pcoded-mtext" data-i18n="nav.dash.main">Home</span>
           <span class="pcoded-mcaret"></span>
         </a>
       </li>
@@ -53,7 +53,7 @@
         </a>
         <ul class="pcoded-submenu">
           <li class=" ">
-            <a href="principal/usuario.jsp" class="waves-effect waves-dark">
+            <a href="<%= request.getContextPath() %>/principal/usuario.jsp" class="waves-effect waves-dark">
               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
               <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Usuário</span>
               <span class="pcoded-mcaret"></span>
