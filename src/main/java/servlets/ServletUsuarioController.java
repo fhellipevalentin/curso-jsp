@@ -45,13 +45,14 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
         String senha = request.getParameter("senha");
 
         ModelLogin modelLogin = new ModelLogin();
+
         modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
         modelLogin.setNome(nome);
         modelLogin.setEmail(email);
         modelLogin.setLogin(login);
         modelLogin.setSenha(senha);
 
-        daoUsuarioRepository.gravarUsuario(modelLogin);
+        modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
 
         request.setAttribute("msg", "Operação realizada com sucesso");
         request.setAttribute("modelLogin", modelLogin);
@@ -63,6 +64,8 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             RequestDispatcher redirect = request.getRequestDispatcher("erro.jsp");
             request.setAttribute("msg", e.getMessage());
             redirect.forward(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }
