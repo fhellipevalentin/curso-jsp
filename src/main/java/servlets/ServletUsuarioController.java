@@ -35,32 +35,39 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String msg = "";
         try {
 
-        String id = request.getParameter("id");
-        String nome = request.getParameter("nome");
-        String email = request.getParameter("email");
-        String login = request.getParameter("login");
-        String senha = request.getParameter("senha");
 
-        ModelLogin modelLogin = new ModelLogin();
 
-        modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
-        modelLogin.setNome(nome);
-        modelLogin.setEmail(email);
-        modelLogin.setLogin(login);
-        modelLogin.setSenha(senha);
+            String id = request.getParameter("id");
+            String nome = request.getParameter("nome");
+            String email = request.getParameter("email");
+            String login = request.getParameter("login");
+            String senha = request.getParameter("senha");
+
+            ModelLogin modelLogin = new ModelLogin();
+
+            modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
+            modelLogin.setNome(nome);
+            modelLogin.setEmail(email);
+            modelLogin.setLogin(login);
+            modelLogin.setSenha(senha);
     
         if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
-            request.setAttribute("msg", "Login já cadastrado");
+            request.setAttribute("msg","Nome de usuário já está em uso, tente outro.");
             request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             return;
         } else {
+            if (modelLogin.isNovo()) {
+                msg = "Salvo com sucesso!";
+            } else {
+                msg = "Atualizado com sucesso!";
+            }
             modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
         }
 
-        request.setAttribute("msg", "Operação realizada com sucesso");
+        request.setAttribute("msg", msg);
         request.setAttribute("modelLogin", modelLogin);
         request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 

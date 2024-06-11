@@ -6,7 +6,6 @@ import model.ModelLogin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class DAOUsuarioRepository {
 
@@ -17,20 +16,36 @@ public class DAOUsuarioRepository {
     }
 
     public ModelLogin gravarUsuario(ModelLogin objeto) throws Exception {
-        String sql = "INSERT INTO model_login (login, nome, email, senha) VALUES (?, ?, ?, ?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        try {
-            preparedStatement.setString(1, objeto.getLogin());
-            preparedStatement.setString(2, objeto.getNome());
-            preparedStatement.setString(3, objeto.getEmail());
-            preparedStatement.setString(4, objeto.getSenha());
-        } catch (Exception e) {
-            connection.rollback();
+        if (objeto.isNovo()) {
+
+            String sql = "INSERT INTO model_login (login, nome, email, senha) VALUES (?, ?, ?, ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            try {
+                preparedStatement.setString(1, objeto.getLogin());
+                preparedStatement.setString(2, objeto.getNome());
+                preparedStatement.setString(3, objeto.getEmail());
+                preparedStatement.setString(4, objeto.getSenha());
+            } catch (Exception e) {
+                connection.rollback();
+            }
+            preparedStatement.execute();
+            connection.commit();
+        } else {
+            String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=? WHERE id="+objeto.getId()+";";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            try {
+                preparedStatement.setString(1, objeto.getLogin());
+                preparedStatement.setString(2, objeto.getNome());
+                preparedStatement.setString(3, objeto.getEmail());
+                preparedStatement.setString(4, objeto.getSenha());
+            } catch (Exception e) {
+                connection.rollback();
+            }
+            preparedStatement.executeUpdate();
+            connection.commit();
         }
-        preparedStatement.execute();
-        connection.commit();
-
         return this.consultaUsuario(objeto.getLogin());
     }
 
