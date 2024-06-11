@@ -51,8 +51,14 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
         modelLogin.setEmail(email);
         modelLogin.setLogin(login);
         modelLogin.setSenha(senha);
-
-        modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
+    
+        if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
+            request.setAttribute("msg", "Login já cadastrado");
+            request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+            return;
+        } else {
+            modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
+        }
 
         request.setAttribute("msg", "Operação realizada com sucesso");
         request.setAttribute("modelLogin", modelLogin);
