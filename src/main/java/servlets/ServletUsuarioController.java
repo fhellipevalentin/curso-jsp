@@ -30,7 +30,22 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsp/usuario.jsp").forward(request, response);
+        try {
+            String acao = request.getParameter("acao");
+            if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+                String idUser = request.getParameter("id");
+
+                daoUsuarioRepository.deletarUsuario(idUser);
+                request.setAttribute("msg", "Usuário deletado com sucesso!");
+            }
+            request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            RequestDispatcher redirect = request.getRequestDispatcher("erro.jsp");
+            request.setAttribute("msg", e.getMessage());
+            redirect.forward(request, response);
+        }
     }
 
     @Override

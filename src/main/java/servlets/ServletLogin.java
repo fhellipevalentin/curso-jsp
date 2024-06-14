@@ -10,7 +10,6 @@ import model.ModelLogin;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.server.UID;
 
 @WebServlet(urlPatterns = {"/principal/ServletLogin", "/ServletLogin"})
 public class ServletLogin extends HttpServlet implements Serializable {
