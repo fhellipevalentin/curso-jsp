@@ -75,14 +75,14 @@
 
                             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                             <button class="btn btn-success waves-effect waves-light">Salvar</button>
-                            <button type="button" class="btn btn-info waves-effect waves-light" onclick="criarDelete()">Excluir</button>
+                            <button type="button" class="btn btn-info waves-effect waves-light" onclick="criarDeleteComAjax()">Excluir</button>
                           </form>
 
                         </div>
                       </div>
                     </div>
                   </div>
-                  <span>${msg}</span>
+                  <span id="msg"></span>
                 </div>
                 <!-- Page-body end -->
               </div>
@@ -96,6 +96,28 @@
 </div>
 <jsp:include page="js-include.jsp"></jsp:include>
 <script type="text/javascript">
+
+  function criarDeleteComAjax() {
+    if (confirm('Confirma a exclusão')) {
+      var urlAction = document.getElementById('formUser').action;
+      var idUser = document.getElementById('id').value;
+
+      $.ajax({
+        method: "get",
+        url: urlAction,
+        data: "id=" + idUser + "&acao=deletarajax",
+        success: function (response) {
+          limparForm();
+          // alert(response);
+          document.getElementById('msg').textContent = response;
+        }
+      }).fail(function (xhr, status, errorThrown){
+        alert('Erro ao deletar usuários por id: ' + xhr.responseText)
+      })
+
+    }
+  }
+
   function limparForm() {
     var elementos = document.getElementById("formUser").elements; // retorna os elementos html dentro do form
     for (p = 0; p < elementos.length; p++) {
