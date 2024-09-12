@@ -44,6 +44,14 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
                 response.getWriter().write("Usuário deletado com sucesso!");
 
+            } else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("pesquisarUserAjax")) {
+                String nomePesquisa = request.getParameter("nomePesquisar");
+                System.out.println(nomePesquisa);
+
+                // daoUsuarioRepository.deletarUsuario(idUser);
+
+                // response.getWriter().write("Usuário deletado com sucesso!");
+
             } else {
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
