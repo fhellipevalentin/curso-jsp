@@ -12,6 +12,9 @@ import model.ModelLogin;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet(name = "ServletUsuarioController", urlPatterns = {"/ServletUsuarioController"})
 public class ServletUsuarioController extends HttpServlet implements Serializable {
@@ -46,10 +49,14 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
             } else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("pesquisarUserAjax")) {
                 String nomePesquisa = request.getParameter("nomePesquisar");
-                System.out.println(nomePesquisa);
-
+                
+                List<ModelLogin> dadosJsonUserList = daoUsuarioRepository.consultaUsuarioList(nomePesquisa);
+                
+                ObjectMapper mapper = new ObjectMapper();
+                String jsonString = mapper.writeValueAsString(dadosJsonUserList);
+                response.getWriter().write(jsonString);
                 // daoUsuarioRepository.deletarUsuario(idUser);
-
+                
                 // response.getWriter().write("Usuário deletado com sucesso!");
 
             } else {

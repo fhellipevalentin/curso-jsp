@@ -118,8 +118,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Pesquisar
-						Usuário</h5>
+					<h5 class="modal-title" id="exampleModalLabel">PesquiUsuário</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -162,17 +161,16 @@
 			
 			var nomePesquisar = document.getElementById('nomePesquisar').value;
 			
-			if(nomePesquisar != null && nomePesquisar != '' && nomePesquisar.trim() != '') {/*Se há valor*/
-				
-				var urlAction = document.getElementById('formUser').action;
-				var idUser = document.getElementById('id').value;
+			if(nomePesquisar != null && nomePesquisar != '' && nomePesquisar.trim() != '') {
 
+				var urlAction = document.getElementById('formUser').action;
 				$.ajax({
+					
 					method : "get",
 					url : urlAction,
 					data : "nomePesquisar=" + nomePesquisar + "&acao=pesquisarUserAjax",
 					success : function(response) {
-						
+						alert(response)
 					}
 				}).fail(
 						function(xhr, status, errorThrown) {
