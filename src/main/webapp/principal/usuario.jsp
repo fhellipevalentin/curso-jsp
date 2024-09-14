@@ -57,8 +57,9 @@
 															<div class="form-group form-static-label">
 																<input type="text" name="nome" id="nome"
 																	class="form-control" required="required"
-																	value="${modelLogin.nome}"> <span
-																	class="form-bar"></span> <label class="float-label">Nome:</label>
+																	value="${modelLogin.nome}"> 
+																<span class="form-bar"></span> <label 
+																	class="float-label">Nome:</label>
 															</div>
 
 															<div class="form-group form-static-label">
@@ -118,7 +119,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">PesquiUsuário</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Pesquisar Usuário</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -134,18 +135,21 @@
 							<button class="btn btn-outline-secondary" type="button" onclick="pesquisarUsuario()">Pesquisar</button>
 						</div>
 					</div>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Nome</th>
-								<th scope="col">Ver</th>
-							</tr>
-						</thead>
-						<tbody>
-							
-						</tbody>
-					</table>
+					<div style="height: 300px; overflow: scroll;">
+						<table class="table" id="tabelaResultados">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Nome</th>
+									<th scope="col">Ver</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<span id="totalRegistros"></span>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger"
@@ -170,8 +174,16 @@
 					url : urlAction,
 					data : "nomePesquisar=" + nomePesquisar + "&acao=pesquisarUserAjax",
 					success : function(response) {
-						alert(response)
-					}
+						
+						var json = JSON.parse(response);
+						console.log()
+						$('#tabelaResultados > tbody > tr').remove(); // jquery - remove pesquisa feita anteriormente
+						
+						for (var p=0; p < json.length; p++) {
+							$('#tabelaResultados > tbody').append('<tr> <td>'+json[p].id+'</td><td>'+json[p].nome+'</td><td><button type="button" class="btn btn-info">Ver</button></td></tr>')
+						}
+						
+						document.getElementById('totalRegistros').textContent = 'Resultados: ' + json.length;					}
 				}).fail(
 						function(xhr, status, errorThrown) {
 							alert('Erro ao pesquisar usuários por nome: '

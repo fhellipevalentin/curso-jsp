@@ -55,9 +55,6 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonString = mapper.writeValueAsString(dadosJsonUserList);
                 response.getWriter().write(jsonString);
-                // daoUsuarioRepository.deletarUsuario(idUser);
-                
-                // response.getWriter().write("Usuário deletado com sucesso!");
 
             } else {
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
