@@ -23,10 +23,6 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
     private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
-    public DAOUsuarioRepository getDaoUsuarioRepository() {
-        return daoUsuarioRepository;
-    }
-
     public ServletUsuarioController() {
         super();
     }
@@ -35,19 +31,19 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String acao = request.getParameter("acao");
-            if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+            if (acao != null && acao.equalsIgnoreCase("deletar")) {
                 String idUser = request.getParameter("id");
 
                 daoUsuarioRepository.deletarUsuario(idUser);
                 request.setAttribute("msg", "Usuário deletado com sucesso!");
-            } else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
+            } else if(acao != null && acao.equalsIgnoreCase("deletarajax")) {
                 String idUser = request.getParameter("id");
 
                 daoUsuarioRepository.deletarUsuario(idUser);
 
                 response.getWriter().write("Usuário deletado com sucesso!");
 
-            } else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("pesquisarUserAjax")) {
+            } else if(acao != null && acao.equalsIgnoreCase("pesquisarUserAjax")) {
                 String nomePesquisa = request.getParameter("nomePesquisar");
                 
                 List<ModelLogin> dadosJsonUserList = daoUsuarioRepository.consultaUsuarioList(nomePesquisa);
@@ -56,7 +52,17 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
                 String jsonString = mapper.writeValueAsString(dadosJsonUserList);
                 response.getWriter().write(jsonString);
 
-            } else {
+            } else if (acao != null && acao.equalsIgnoreCase("pesquisarEditar")) {
+                String id = request.getParameter("id");
+
+                ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioporId(id);
+
+                request.setAttribute("msg", "Usuário em Edição");
+                request.setAttribute("modelLogin", modelLogin);
+                request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+            }
+            else {
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 

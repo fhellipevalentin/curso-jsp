@@ -29,7 +29,6 @@ public class DAOLoginRepository {
         }
 
         return false; // nao autenticado
-
     }
 
 }

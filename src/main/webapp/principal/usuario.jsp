@@ -160,27 +160,34 @@
 	</div>
 
 	<script type="text/javascript">
-		
-		function pesquisarUsuario() {
-			
-			var nomePesquisar = document.getElementById('nomePesquisar').value;
-			
-			if(nomePesquisar != null && nomePesquisar != '' && nomePesquisar.trim() != '') {
 
-				var urlAction = document.getElementById('formUser').action;
+		function verEditar(id) {
+
+			const urlAction = document.getElementById('formUser').action;
+			window.location.href = urlAction + '?acao=pesquisarEditar&id=' + id;
+
+		}
+
+		function pesquisarUsuario() {
+
+			const nomePesquisar = document.getElementById('nomePesquisar').value;
+
+			if(nomePesquisar != null && nomePesquisar !== '' && nomePesquisar.trim() !== '') {
+
+				const urlAction = document.getElementById('formUser').action;
 				$.ajax({
 					
 					method : "get",
 					url : urlAction,
 					data : "nomePesquisar=" + nomePesquisar + "&acao=pesquisarUserAjax",
 					success : function(response) {
-						
-						var json = JSON.parse(response);
+
+						const json = JSON.parse(response);
 						console.log()
 						$('#tabelaResultados > tbody > tr').remove(); // jquery - remove pesquisa feita anteriormente
 						
-						for (var p=0; p < json.length; p++) {
-							$('#tabelaResultados > tbody').append('<tr> <td>'+json[p].id+'</td><td>'+json[p].nome+'</td><td><button type="button" class="btn btn-info">Ver</button></td></tr>')
+						for (let p=0; p < json.length; p++) {
+							$('#tabelaResultados > tbody').append('<tr> <td>'+json[p].id+'</td><td>'+json[p].nome+'</td><td><button type="button" class="btn btn-info" onclick="verEditar('+json[p].id+')" >Ver</button></td></tr>')
 						}
 						
 						document.getElementById('totalRegistros').textContent = 'Resultados: ' + json.length;					}
@@ -194,8 +201,8 @@
 	
 		function criarDeleteComAjax() {
 			if (confirm('Confirma a exclusão')) {
-				var urlAction = document.getElementById('formUser').action;
-				var idUser = document.getElementById('id').value;
+				const urlAction = document.getElementById('formUser').action;
+				const idUser = document.getElementById('id').value;
 
 				$.ajax({
 					method : "get",
@@ -216,8 +223,8 @@
 		}
 
 		function limparForm() {
-			var elementos = document.getElementById("formUser").elements; // retorna os elementos html dentro do form
-			for (p = 0; p < elementos.length; p++) {
+			const elementos = document.getElementById("formUser").elements; // retorna os elementos html dentro do form
+			for (let p = 0; p < elementos.length; p++) {
 				elementos[p].value = '';
 			}
 		}
