@@ -5,6 +5,9 @@
   Time: 11:15
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,6 +104,27 @@
 										</div>
 										<span id="msg"></span>
 									</div>
+									<div style="height: 300px; overflow: scroll;">
+										<table class="table" id="tabelaResultadosview">
+											<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Nome</th>
+												<th scope="col">Ver</th>
+											</tr>
+											</thead>
+											<tbody>
+												<c:forEach items='${modelLogins}' var='ml'>
+													<tr>
+														<td><c:out value="${ml.id}"></c:out></td>
+														<td><c:out value="${ml.nome}"></c:out></td>
+														<td><a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=pesquisarEditar&id=${ml.id}" class="btn btn-success" type="button">Ver</a></td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
+
 									<!-- Page-body end -->
 								</div>
 								<div id="styleSelector"></div>
@@ -172,7 +196,7 @@
 
 			const nomePesquisar = document.getElementById('nomePesquisar').value;
 
-			if(nomePesquisar != null && nomePesquisar != '' && nomePesquisar.trim() != '') {
+			if(nomePesquisar != null && nomePesquisar !== '' && nomePesquisar.trim() !== '') {
 
 				const urlAction = document.getElementById('formUser').action;
 				$.ajax({

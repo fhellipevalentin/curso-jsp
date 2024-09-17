@@ -34,6 +34,9 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             if (acao != null && acao.equalsIgnoreCase("deletar")) {
                 String idUser = request.getParameter("id");
 
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                request.setAttribute("modelLogins", modelLogins);
+
                 daoUsuarioRepository.deletarUsuario(idUser);
                 request.setAttribute("msg", "Usuário deletado com sucesso!");
             } else if(acao != null && acao.equalsIgnoreCase("deletarajax")) {
@@ -57,12 +60,25 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
                 ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioporId(id);
 
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                request.setAttribute("modelLogins", modelLogins);
+
                 request.setAttribute("msg", "Usuário em Edição");
                 request.setAttribute("modelLogin", modelLogin);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
+            } else if (acao != null && acao.equalsIgnoreCase("listarUser")) {
+
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+
+                request.setAttribute("msg", "Usuários carregados");
+                request.setAttribute("modelLogins", modelLogins);
+                request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
             else {
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                request.setAttribute("modelLogins", modelLogins);
+
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
@@ -107,6 +123,9 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             }
             modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
         }
+
+        List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+        request.setAttribute("modelLogins", modelLogins);
 
         request.setAttribute("msg", msg);
         request.setAttribute("modelLogin", modelLogin);
