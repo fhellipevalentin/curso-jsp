@@ -1,10 +1,11 @@
 package servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
+import dao.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ModelLogin;
@@ -14,10 +15,8 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @WebServlet(name = "ServletUsuarioController", urlPatterns = {"/ServletUsuarioController"})
-public class ServletUsuarioController extends HttpServlet implements Serializable {
+public class ServletUsuarioController extends ServletGenericUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +33,7 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             if (acao != null && acao.equalsIgnoreCase("deletar")) {
                 String idUser = request.getParameter("id");
 
-                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
                 request.setAttribute("modelLogins", modelLogins);
 
                 daoUsuarioRepository.deletarUsuario(idUser);
@@ -49,7 +48,7 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             } else if(acao != null && acao.equalsIgnoreCase("pesquisarUserAjax")) {
                 String nomePesquisa = request.getParameter("nomePesquisar");
                 
-                List<ModelLogin> dadosJsonUserList = daoUsuarioRepository.consultaUsuarioList(nomePesquisa);
+                List<ModelLogin> dadosJsonUserList = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
                 
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonString = mapper.writeValueAsString(dadosJsonUserList);
@@ -58,9 +57,9 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             } else if (acao != null && acao.equalsIgnoreCase("pesquisarEditar")) {
                 String id = request.getParameter("id");
 
-                ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioporId(id);
+                ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioporId(id, super.getUserLogado(request));
 
-                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
                 request.setAttribute("modelLogins", modelLogins);
 
                 request.setAttribute("msg", "Usuário em Edição");
@@ -69,14 +68,14 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
 
             } else if (acao != null && acao.equalsIgnoreCase("listarUser")) {
 
-                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 
                 request.setAttribute("msg", "Usuários carregados");
                 request.setAttribute("modelLogins", modelLogins);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
             else {
-                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+                List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
                 request.setAttribute("modelLogins", modelLogins);
 
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -94,8 +93,6 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String msg = "";
         try {
-
-
 
             String id = request.getParameter("id");
             String nome = request.getParameter("nome");
@@ -121,10 +118,10 @@ public class ServletUsuarioController extends HttpServlet implements Serializabl
             } else {
                 msg = "Atualizado com sucesso!";
             }
-            modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
+            modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin, super.getUserLogado(request));
         }
 
-        List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+        List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
         request.setAttribute("modelLogins", modelLogins);
 
         request.setAttribute("msg", msg);
