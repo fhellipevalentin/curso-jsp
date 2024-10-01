@@ -1,5 +1,6 @@
 package servlets;
 import dao.DAOLoginRepository;
+import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +17,8 @@ public class ServletLogin extends HttpServlet implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
+    private final DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
+    private final DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
     public ServletLogin () {
 
@@ -53,7 +55,10 @@ public class ServletLogin extends HttpServlet implements Serializable {
                 modelLogin.setLogin(login);
                 modelLogin.setSenha(senha);
                 if (daoLoginRepository.validarAutenticacao(modelLogin)) {/*simulando login*/
+
+                    modelLogin = daoUsuarioRepository.consultaUsuarioLogado(login);
                     request.getSession().setAttribute("usuario", modelLogin.getLogin());
+                    request.getSession().setAttribute("isAdmin", modelLogin.getUseradmin());
 
                     if (url == null || url.equals("null")) {
                         url = "principal/principal.jsp";
