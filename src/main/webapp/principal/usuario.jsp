@@ -73,6 +73,16 @@
 																	class="float-label">E-mail:</label>
 															</div>
 															<div class="form-group form-static-label">
+																<select class="form-control" name="perfil">
+																	<option disabled="disabled">Selecione ..</option>
+																	<option value="ADMIN">Admin</option>
+																	<option value="SECRETARIA">Secretaria</option>
+																	<option value="TESTE">Teste</option>
+																</select>
+															<span class="form-bar"></span>
+																<label class="float-label">Perfil</label>
+															</div>
+															<div class="form-group form-static-label">
 																<input type="text" name="login" id="login"
 																	class="form-control" required="required"
 																	autocomplete="false" value="${modelLogin.login}">

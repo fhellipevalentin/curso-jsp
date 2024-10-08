@@ -1,0 +1,17 @@
+create table model_login
+(
+    id         serial
+        primary key,
+    nome       varchar(100)      not null,
+    email      varchar(100)      not null
+        unique,
+    login      varchar(50)       not null
+        unique,
+    senha      varchar(50)       not null,
+    useradmin  boolean default false,
+    usuario_id bigint  default 1 not null
+        constraint usuario_fk
+            references model_login,
+    perfil     varchar(20)
+);
+INSERT INTO public.model_login (id, nome, email, login, senha, useradmin, usuario_id, perfil) VALUES (1, 'admin', 'admin@admin.com', 'admin', '12345', true, 1, 'ADMIN')
