@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.Objects" %>
+<%@ page import="model.ModelLogin" %><%--
   Created by IntelliJ IDEA.
   User: fhell
   Date: 12/03/2024
@@ -71,6 +72,36 @@
 																	autocomplete="false" value="${modelLogin.email}">
 																<span class="form-bar"></span> <label
 																	class="float-label">E-mail:</label>
+															</div>
+															<div class="form-group form-static-label">
+																<select class="form-control" name="perfil">
+																	<option value="" >Selecione..</option>
+																	<option value="ADMIN" <%
+
+																		ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+
+																		if (modelLogin != null && modelLogin.getPerfil().equals("ADMIN")) {
+																		out.print(" ");
+																			out.print("selected=\"selected\"");
+																		out.print(" ");
+																	} %> >Admin</option>
+																	<option value="SECRETARIA" <%
+
+																		if (modelLogin != null && modelLogin.getPerfil().equals("SECRETARIA")) {
+																			out.print(" ");
+																			out.print("selected=\"selected\"");
+																		out.print(" ");
+																	} %> >Secretaria</option>
+																	<option value="TESTE" <%
+
+																		if (modelLogin != null && modelLogin.getPerfil().equals("TESTE"))
+																			{out.print(" ");
+																			out.print("selected=\"selected\"");
+																			out.print(" ");
+																	} %>>Teste</option>
+																</select>
+															<span class="form-bar"></span>
+																<label class="float-label">Perfil</label>
 															</div>
 															<div class="form-group form-static-label">
 																<input type="text" name="login" id="login"
