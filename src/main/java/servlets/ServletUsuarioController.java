@@ -2,7 +2,6 @@ package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
-import dao.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -100,6 +99,7 @@ public class ServletUsuarioController extends ServletGenericUtil implements Seri
             String login = request.getParameter("login");
             String senha = request.getParameter("senha");
             String perfil = request.getParameter("perfil");
+            String sexo = request.getParameter("sexo");
 
             ModelLogin modelLogin = new ModelLogin();
 
@@ -109,6 +109,7 @@ public class ServletUsuarioController extends ServletGenericUtil implements Seri
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
             modelLogin.setPerfil(perfil);
+            modelLogin.setSexo(sexo);
     
         if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
             request.setAttribute("msg","Nome de usuário já está em uso, tente outro.");

@@ -12,6 +12,7 @@ create table model_login
     usuario_id bigint  default 1 not null
         constraint usuario_fk
             references model_login,
-    perfil     varchar(20)
+    perfil     varchar(20),
+    sexo       text
 );
-INSERT INTO public.model_login (id, nome, email, login, senha, useradmin, usuario_id, perfil) VALUES (1, 'admin', 'admin@admin.com', 'admin', '12345', true, 1, 'ADMIN')
+INSERT INTO public.model_login (id, nome, email, login, senha, useradmin, usuario_id, perfil, sexo) VALUES (1, 'admin', 'admin@admin.com', 'admin', '12345', true, 1, 'ADMIN', 'MASCULINO')
