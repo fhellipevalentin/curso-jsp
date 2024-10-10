@@ -47,7 +47,8 @@
 
 														<form class="form-material"
 															action="<%=request.getContextPath()%>/ServletUsuarioController"
-															method="post" id="formUser">
+															method="post" id="formUser"
+															enctype="multipart/form-data">
 
 															<input type="hidden" name="acao" id="acao" value="">
 
@@ -56,6 +57,13 @@
 																	class="form-control" readonly="readonly"
 																	value="${modelLogin.id}"> <span
 																	class="form-bar"></span> <label class="float-label">ID:</label>
+															</div>
+
+															<div class="form-group form-static-label input-group mb-4" >
+																<div class="input-group-prepend">
+																	<img alt="imagem User" src="" width="70px">
+																</div>
+																<input type="file" class="form-control-file">
 															</div>
 
 															<div class="form-group form-static-label">

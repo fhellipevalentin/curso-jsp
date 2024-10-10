@@ -16,6 +16,9 @@ public class ModelLogin implements Serializable {
     private String perfil;
     private String sexo;
 
+    private String fotoUser;
+    private String extensaoFotoUser;
+
     public boolean isNovo(){
         if (this.id == null) {
             return true; // inserir novo
@@ -36,6 +39,22 @@ public class ModelLogin implements Serializable {
         this.useradmin = useradmin;
         this.senha = senha;
         this.perfil = perfil;
+    }
+
+    public String getFotoUser() {
+        return fotoUser;
+    }
+
+    public void setFotoUser(String fotoUser) {
+        this.fotoUser = fotoUser;
+    }
+
+    public String getExtensaoFotoUser() {
+        return extensaoFotoUser;
+    }
+
+    public void setExtensaoFotoUser(String extensaoFotoUser) {
+        this.extensaoFotoUser = extensaoFotoUser;
     }
 
     public String getSexo() {
