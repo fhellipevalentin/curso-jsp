@@ -118,11 +118,15 @@ public class ServletUsuarioController extends ServletGenericUtil implements Seri
 
             if (request.getContentType() != null && request.getContentType().startsWith("multipart/")) {
                 Part filePart = request.getPart("fileFoto"); // pega foto da tela
-                byte[] foto = IOUtils.toByteArray(filePart.getInputStream()); // converte a imagem para byte
-                String imagemBase64 = "data:image/" + filePart.getContentType().split("\\/")[1]+ ";base64," + new Base64().encodeBase64String(foto);
 
-                modelLogin.setFotoUser(imagemBase64);
-                modelLogin.setExtensaoFotoUser(filePart.getContentType().split("\\/")[1]);
+                if (filePart.getSize() > 0) {
+
+                    byte[] foto = IOUtils.toByteArray(filePart.getInputStream()); // converte a imagem para byte
+                    String imagemBase64 = "data:image/" + filePart.getContentType().split("\\/")[1] + ";base64," + new Base64().encodeBase64String(foto);
+
+                    modelLogin.setFotoUser(imagemBase64);
+                    modelLogin.setExtensaoFotoUser(filePart.getContentType().split("\\/")[1]);
+                }
             }
     
         if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {

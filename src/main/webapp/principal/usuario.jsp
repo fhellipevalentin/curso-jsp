@@ -59,11 +59,14 @@
 																	class="form-bar"></span> <label class="float-label">ID:</label>
 															</div>
 
-															<div class="form-group form-static-label input-group mb-4" >
-																<div class="input-group-prepend">
-																	<img id="fotoEmBase64" alt="imagem User" src="" width="70px">
-																</div>
-																<input name="fileFoto" id="fileFoto" type="file" onchange="visualizarImg('fotoEmBase64', 'fileFoto')" class="form-control-file" accept="image/*">
+															<div class="form-group form-static-label mb-4">
+																<c:if test="${modelLogin.fotoUser != '' && modelLogin.fotoUser != null}">
+																	<img alt="imagem User" id="fotoEmBase64" src="${modelLogin.fotoUser}" width="70px">
+																</c:if>
+																<c:if test="${modelLogin.fotoUser == '' || modelLogin.fotoUser == null}">
+																	<img alt="imagem User" id="fotoEmBase64" src="assets/images/avatar-blank.jpg" width="70px">
+																</c:if>
+																<input name="fileFoto" id="fileFoto" type="file" onchange="visualizarImg('fotoEmBase64', 'fileFoto')" class="form-control-file mt-2" accept="image/*">
 															</div>
 
 															<div class="form-group form-static-label">
