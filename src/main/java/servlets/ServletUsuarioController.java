@@ -8,14 +8,17 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.ModelLogin;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-@MultipartConfig
+@MultipartConfig()
 @WebServlet(name = "ServletUsuarioController", urlPatterns = {"/ServletUsuarioController"})
 public class ServletUsuarioController extends ServletGenericUtil implements Serializable {
 
@@ -112,6 +115,13 @@ public class ServletUsuarioController extends ServletGenericUtil implements Seri
             modelLogin.setSenha(senha);
             modelLogin.setPerfil(perfil);
             modelLogin.setSexo(sexo);
+
+            if (request.getContentType() != null && request.getContentType().startsWith("multipart/")) {
+                Part filePart = request.getPart("fileFoto"); // pega foto da tela
+                byte[] foto = IOUtils.toByteArray(filePart.getInputStream()); // converte a imagem para byte
+                String imagemBase64 = new Base64().encodeBase64String(foto);
+                System.out.println(imagemBase64);
+            }
     
         if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
             request.setAttribute("msg","Nome de usuário já está em uso, tente outro.");
