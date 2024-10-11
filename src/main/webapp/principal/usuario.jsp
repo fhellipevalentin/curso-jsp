@@ -61,7 +61,9 @@
 
 															<div class="form-group form-static-label mb-4">
 																<c:if test="${modelLogin.fotoUser != '' && modelLogin.fotoUser != null}">
-																	<img alt="imagem User" id="fotoEmBase64" src="${modelLogin.fotoUser}" width="70px">
+																	<a href="<%= request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${modelLogin.id}">
+																		<img alt="imagem User" id="fotoEmBase64" src="${modelLogin.fotoUser}" width="70px">
+																	</a>
 																</c:if>
 																<c:if test="${modelLogin.fotoUser == '' || modelLogin.fotoUser == null}">
 																	<img alt="imagem User" id="fotoEmBase64" src="assets/images/avatar-blank.jpg" width="70px">

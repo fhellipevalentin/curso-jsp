@@ -78,6 +78,17 @@ public class ServletUsuarioController extends ServletGenericUtil implements Seri
                 request.setAttribute("modelLogins", modelLogins);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
+            else if (acao != null && acao.equalsIgnoreCase("downloadFoto")) {
+                String idUser = request.getParameter("id");
+
+                ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioporId(idUser, super.getUserLogado(request));
+
+                if (modelLogin.getFotoUser() != null && !modelLogin.getFotoUser().isEmpty()) {
+                    response.setHeader("Content-Disposition", "attachment; filename=arquivo." + modelLogin.getExtensaoFotoUser());
+                    response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getFotoUser().split("\\,")[1]));
+                }
+
+            }
             else {
                 List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
                 request.setAttribute("modelLogins", modelLogins);
